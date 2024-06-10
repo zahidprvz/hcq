@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "465481303579",
+    "project_id": "healthcolonquest-dddc1",
+    "storage_bucket": "healthcolonquest-dddc1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465481303579:android:fecd27fbde2b03c5b69abe",
+        "android_client_info": {
+          "package_name": "com.example.hcq"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwDVYrWNP4K8OxYt-QtVCRaS3aaJOzpAs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
