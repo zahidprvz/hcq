@@ -66,7 +66,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.add_circle,
+              Icons.people_alt_outlined,
               color: _page == 2 ? primaryColor : secondaryColor,
             ),
             label: '',

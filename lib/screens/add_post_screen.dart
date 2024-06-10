@@ -139,11 +139,14 @@ class _AddPostScreenState extends State<AddPostScreen> {
               title: const Text('Post to'),
               actions: [
                 TextButton(
-                  onPressed: () => postImage(
-                    user.uid,
-                    user.username,
-                    user.photoUrl,
-                  ),
+                  onPressed: () async {
+                    await postImage(
+                      user.uid,
+                      user.username,
+                      user.photoUrl,
+                    );
+                    Navigator.of(context).pop();
+                  },
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(

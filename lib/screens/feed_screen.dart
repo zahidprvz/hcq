@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hcq/screens/add_post_screen.dart';
 import 'package:hcq/utils/colors.dart';
 import 'package:hcq/utils/global_variables.dart';
 import 'package:hcq/widgets/post_card.dart';
@@ -26,9 +27,14 @@ class FeedScreen extends StatelessWidget {
               ),
               actions: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AddPostScreen()),
+                    );
+                  },
                   icon: const Icon(
-                    Icons.message_outlined,
+                    Icons.file_upload_outlined,
                     color: Colors.white,
                   ),
                 ),
