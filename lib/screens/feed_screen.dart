@@ -30,7 +30,7 @@ class FeedScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AddPostScreen()),
+                      MaterialPageRoute(builder: (context) => const AddPostScreen()),
                     );
                   },
                   icon: const Icon(

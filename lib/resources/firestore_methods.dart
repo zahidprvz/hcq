@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hcq/models/chat.dart';
+import 'package:hcq/models/message.dart';
 import 'package:hcq/models/post.dart';
 import 'package:hcq/resources/storage_methods.dart';
 import 'package:uuid/uuid.dart';
@@ -179,5 +181,78 @@ class FirestoreMethods {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  // Create chat
+  Future<String> createChat(String uid1, String uid2) async {
+    String res = "some error occurred";
+    try {
+      String chatId = const Uuid().v1();
+      Chat chat = Chat(
+        chatId: chatId,
+        users: [uid1, uid2],
+        lastMessageTime: DateTime.now(),
+      );
+
+      await _firestore.collection('chats').doc(chatId).set(chat.toJson());
+      res = "success";
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  // Send message
+  Future<String> sendMessage(
+      String chatId, String senderId, String text) async {
+    String res = "some error occurred";
+    try {
+      String messageId = const Uuid().v1();
+      Message message = Message(
+        messageId: messageId,
+        senderId: senderId,
+        text: text,
+        timestamp: DateTime.now(),
+      );
+
+      await _firestore
+          .collection('chats')
+          .doc(chatId)
+          .collection('messages')
+          .doc(messageId)
+          .set(message.toJson());
+
+      await _firestore.collection('chats').doc(chatId).update({
+        'lastMessageTime': DateTime.now(),
+      });
+
+      res = "success";
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  // Get chat messages
+  Stream<List<Message>> getMessages(String chatId) {
+    return _firestore
+        .collection('chats')
+        .doc(chatId)
+        .collection('messages')
+        .orderBy('timestamp', descending: true)
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => Message.fromJson(doc.data())).toList());
+  }
+
+  // Get user chats
+  Stream<List<Chat>> getUserChats(String uid) {
+    return _firestore
+        .collection('chats')
+        .where('users', arrayContains: uid)
+        .orderBy('lastMessageTime', descending: true)
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => Chat.fromJson(doc.data())).toList());
   }
 }

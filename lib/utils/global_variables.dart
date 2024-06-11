@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hcq/screens/add_post_screen.dart';
 import 'package:hcq/screens/dashboard_screen.dart';
 import 'package:hcq/screens/feed_screen.dart';
 import 'package:hcq/screens/profile_screen.dart';
