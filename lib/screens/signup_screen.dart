@@ -21,7 +21,7 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _bioController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   Uint8List? _image;
   bool _isLoading = false;
@@ -31,7 +31,7 @@ class _SignupScreenState extends State<SignupScreen> {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _bioController.dispose();
+    _ageController.dispose();
     _usernameController.dispose();
   }
 
@@ -51,7 +51,7 @@ class _SignupScreenState extends State<SignupScreen> {
       email: _emailController.text,
       password: _passwordController.text,
       username: _usernameController.text,
-      bio: _bioController.text,
+      age: _ageController.text,
       file: _image!,
     );
 
@@ -152,8 +152,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 const SizedBox(height: 24.0),
                 // Bio textfield
                 TextFieldInput(
-                  hintText: 'Enter your bio',
-                  textEditingController: _bioController,
+                  hintText: 'Enter your age',
+                  textEditingController: _ageController,
                   textInputType: TextInputType.text,
                 ),
                 const SizedBox(height: 24.0),

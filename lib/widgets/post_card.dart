@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:hcq/utils/global_variables.dart';
-import 'package:intl/intl.dart';
+import 'package:hcq/utils/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hcq/models/user.dart';
-import 'package:hcq/providers/user_provider.dart';
 import 'package:hcq/resources/firestore_methods.dart';
 import 'package:hcq/screens/comment_screen.dart';
-import 'package:hcq/utils/colors.dart';
+import 'package:hcq/utils/global_variables.dart';
 import 'package:hcq/utils/utils.dart';
-import 'package:hcq/widgets/like_animation.dart';
 import 'package:provider/provider.dart';
+import 'package:hcq/providers/user_provider.dart';
+import 'package:hcq/models/user.dart';
+import 'package:hcq/widgets/like_animation.dart';
+import 'package:intl/intl.dart';
 
 class PostCard extends StatefulWidget {
   final Map<String, dynamic>? snap;
   const PostCard({
-    super.key,
+    Key? key,
     required this.snap,
-  });
+  }) : super(key: key);
 
   @override
   State<PostCard> createState() => _PostCardState();
@@ -77,7 +77,6 @@ class _PostCardState extends State<PostCard> {
         ),
         color: mobileBackgroundColor,
       ),
-
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Column(
         children: [
@@ -121,6 +120,7 @@ class _PostCardState extends State<PostCard> {
                     showDialog(
                       context: context,
                       builder: (context) => Dialog(
+                        backgroundColor: mobileBackgroundColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.0),
                         ),
@@ -143,6 +143,7 @@ class _PostCardState extends State<PostCard> {
                                       horizontal: 16.0,
                                     ),
                                     decoration: BoxDecoration(
+                                      // color: mobileBackgroundColor, // Updated color here
                                       border: Border(
                                         bottom: BorderSide(
                                           color: Colors.grey[300]!,
@@ -160,7 +161,7 @@ class _PostCardState extends State<PostCard> {
                                           e,
                                           style: const TextStyle(
                                             fontSize: 16.0,
-                                            color: Colors.white,
+                                            color: Colors.white, // Text color
                                           ),
                                         ),
                                       ],

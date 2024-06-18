@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hcq/screens/add_post_screen.dart';
+import 'package:hcq/screens/search_screen.dart';
 import 'package:hcq/utils/colors.dart';
 import 'package:hcq/utils/global_variables.dart';
 import 'package:hcq/widgets/post_card.dart';
@@ -21,16 +22,29 @@ class FeedScreen extends StatelessWidget {
               backgroundColor: width > webScreenSize
                   ? webBackgroundColor
                   : mobileBackgroundColor,
-              title: Image.asset(
-                'assets/HCQ.png',
-                height: 50.0,
-              ),
+              title: const Text("Community"),
+              centerTitle: true,
               actions: [
+
                 IconButton(
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const AddPostScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => const SearchScreen()),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AddPostScreen()),
                     );
                   },
                   icon: const Icon(

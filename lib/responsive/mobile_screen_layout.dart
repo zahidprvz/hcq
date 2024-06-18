@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hcq/utils/colors.dart';
 import 'package:hcq/utils/global_variables.dart';
+import 'package:hcq/widgets/custom_drawer.dart'; // Import the CustomDrawer widget
 
 class MobileScreenLayout extends StatefulWidget {
-  const MobileScreenLayout({super.key});
+  const MobileScreenLayout({Key? key}) : super(key: key);
 
   @override
   State<MobileScreenLayout> createState() => _MobileScreenLayoutState();
@@ -12,84 +13,64 @@ class MobileScreenLayout extends StatefulWidget {
 
 class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   int _page = 0;
-  late PageController pageController;
-
-  @override
-  void initState() {
-    super.initState();
-    pageController = PageController();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    pageController.dispose();
-  }
-
-  void navigationTapped(int page) {
-    pageController.jumpToPage(page);
-  }
-
-  void onPageChanged(int page) {
-    setState(() {
-      _page = page;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        physics: const NeverScrollableScrollPhysics(),
-        controller: pageController,
-        onPageChanged: onPageChanged,
-        children: homeScreenItems,
-      ),
+      drawer: CustomDrawer(), // Use CustomDrawer here
+      body: homeScreenItems[_page], // Display the current page
       bottomNavigationBar: CupertinoTabBar(
         backgroundColor: mobileBackgroundColor,
         items: [
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.home,
+              Icons.dashboard,
+              size: 24, // Normal icon size
               color: _page == 0 ? primaryColor : secondaryColor,
             ),
-            label: '',
-            backgroundColor: primaryColor,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.search,
-              color: _page == 1 ? primaryColor : secondaryColor,
-            ),
-            label: '',
-            backgroundColor: primaryColor,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.people_alt_outlined,
-              color: _page == 2 ? primaryColor : secondaryColor,
-            ),
-            label: '',
-            backgroundColor: primaryColor,
+            label: 'Dashboard',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.notifications,
-              color: _page == 3 ? primaryColor : secondaryColor,
+              size: 24, // Normal icon size
+              color: _page == 1 ? primaryColor : secondaryColor,
             ),
-            label: '',
-            backgroundColor: primaryColor,
+            label: 'Notifications',
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
+            icon: Image.asset(
+              'assets/icons/ai-chatting.png',
+              height: 60, // Adjusted height for AI chatting icon
+              width: 60, // Adjusted width for AI chatting icon
+              color: _page == 2 ? primaryColor : secondaryColor,
+            ),
+            label: 'Ask AI',
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset(
+              'assets/icons/doctor-icon.png',
+              height: 24, // Normal icon size
+              width: 24, // Normal icon size
+              color: _page == 3 ? primaryColor : secondaryColor,
+            ),
+            label: 'Doctor',
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset(
+              'assets/icons/community-icon.png',
+              height: 30, // Normal icon size
+              width: 30, // Normal icon size
               color: _page == 4 ? primaryColor : secondaryColor,
             ),
-            label: '',
-            backgroundColor: primaryColor,
+            label: 'Community',
           ),
         ],
-        onTap: navigationTapped,
+        onTap: (index) {
+          setState(() {
+            _page = index;
+          });
+        },
       ),
     );
   }

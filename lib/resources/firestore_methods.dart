@@ -5,6 +5,7 @@ import 'package:hcq/models/chat.dart';
 import 'package:hcq/models/message.dart';
 import 'package:hcq/models/post.dart';
 import 'package:hcq/resources/storage_methods.dart';
+import 'package:hcq/screens/chatbot_screen.dart';
 import 'package:uuid/uuid.dart';
 
 class FirestoreMethods {
@@ -254,5 +255,48 @@ class FirestoreMethods {
         .snapshots()
         .map((snapshot) =>
             snapshot.docs.map((doc) => Chat.fromJson(doc.data())).toList());
+  }
+
+  // Store user's chat with chatbot
+  Future<String> storeUserChatWithChatbot(
+      String uid, List<ChatMessage> messages) async {
+    String res = "Some error occurred";
+    try {
+      String chatId = uid; // Use user's UID as chat ID for simplicity
+
+      for (ChatMessage message in messages) {
+        Message firestoreMessage = Message(
+          messageId: const Uuid().v1(),
+          senderId: message.isUser ? uid : 'chatbot',
+          text: message.text,
+          timestamp: DateTime.now(),
+        );
+
+        await _firestore
+            .collection('user_chats')
+            .doc(chatId)
+            .collection('messages')
+            .doc(firestoreMessage.messageId)
+            .set(firestoreMessage.toJson());
+      }
+
+      res = "Success";
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  // Load chat with chatbot for current user
+  Stream<List<Message>> loadChatWithChatbot(String uid) {
+    String chatId = uid; // Use user's UID as chat ID for simplicity
+    return _firestore
+        .collection('user_chats')
+        .doc(chatId)
+        .collection('messages')
+        .orderBy('timestamp', descending: true)
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => Message.fromJson(doc.data())).toList());
   }
 }
