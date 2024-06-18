@@ -299,4 +299,22 @@ class FirestoreMethods {
         .map((snapshot) =>
             snapshot.docs.map((doc) => Message.fromJson(doc.data())).toList());
   }
+
+// method to delete chat with chatbot
+  Future<void> deleteChatWithChatbot(String uid) async {
+    try {
+      CollectionReference messagesRef =
+          _firestore.collection('user_chats').doc(uid).collection('messages');
+
+      QuerySnapshot snapshot = await messagesRef.get();
+
+      for (DocumentSnapshot doc in snapshot.docs) {
+        await doc.reference.delete();
+      }
+
+      print('User messages deleted!');
+    } catch (e) {
+      print('Error deleting chat: $e');
+    }
+  }
 }

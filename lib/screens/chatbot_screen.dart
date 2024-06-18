@@ -12,7 +12,7 @@ const String _wordsFile = "assets/words.json";
 const String _classesFile = "assets/classes.json";
 
 class ChatBotScreen extends StatefulWidget {
-  final String uid; // Add uid parameter to receive user's UID
+  final String uid;
 
   const ChatBotScreen({Key? key, required this.uid}) : super(key: key);
 
@@ -260,6 +260,16 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
     });
   }
 
+  void _deleteChat() async {
+    await _firestoreMethods.deleteChatWithChatbot(widget.uid);
+
+    setState(() {
+      _messages.clear();
+    });
+
+    _scrollToBottom();
+  }
+
   @override
   void dispose() {
     _messageController.dispose();
@@ -275,7 +285,29 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: mobileBackgroundColor,
+        centerTitle: true,
         title: const Text('Chat with Chatbot'),
+        actions: [
+          PopupMenuButton<String>(
+            color: mobileBackgroundColor,
+            shadowColor: Colors.white,
+            onSelected: (String result) {
+              if (result == 'delete') {
+                _deleteChat();
+              }
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(
+                value: 'delete',
+                child: Text(
+                  'Delete Chat',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       body: Column(
         children: [

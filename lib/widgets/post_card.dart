@@ -283,25 +283,25 @@ class _PostCardState extends State<PostCard> {
                   color: Colors.white,
                 ),
               ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.send,
-                  color: Colors.white,
-                ),
-              ),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.bookmark_border,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
+              // IconButton(
+              //   onPressed: () {},
+              //   icon: const Icon(
+              //     Icons.send,
+              //     color: Colors.white,
+              //   ),
+              // ),
+              // Expanded(
+              //   child: Align(
+              //     alignment: Alignment.bottomRight,
+              //     child: IconButton(
+              //       onPressed: () {},
+              //       icon: const Icon(
+              //         Icons.bookmark_border,
+              //         color: Colors.white,
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
 
