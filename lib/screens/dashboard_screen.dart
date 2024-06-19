@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hcq/screens/game_screen.dart';
-import 'package:hcq/utils/colors.dart'; // Import the GameScreen
+import 'package:hcq/utils/colors.dart';
+import 'package:hcq/widgets/challenges_card.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -29,13 +30,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => GameScreen()),
+                MaterialPageRoute(builder: (context) => const GameScreen()),
               );
             },
           ),
         ],
       ),
-      body: const Center(child: Text("This is Dashboard")),
+      body: const SingleChildScrollView(
+        child: Column(
+          children: [
+            ChallengesSelectionCard(),
+            // Add any additional widgets below if needed
+          ],
+        ),
+      ),
     );
   }
 }

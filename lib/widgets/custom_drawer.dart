@@ -6,9 +6,10 @@ import 'package:hcq/screens/notification_screen.dart';
 import 'package:hcq/screens/profile_screen.dart';
 import 'package:hcq/screens/search_screen.dart';
 import 'package:hcq/utils/colors.dart';
-import 'package:hcq/utils/global_variables.dart';
 
 class CustomDrawer extends StatelessWidget {
+  const CustomDrawer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(

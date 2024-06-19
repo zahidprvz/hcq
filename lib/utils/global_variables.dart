@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hcq/screens/chatbot_screen.dart';
 import 'package:hcq/screens/dashboard_screen.dart';
 import 'package:hcq/screens/feed_screen.dart';
-import 'package:hcq/screens/game_screen.dart';
 import 'package:hcq/screens/notification_screen.dart';
 import 'package:hcq/screens/profile_screen.dart';
-import 'package:hcq/screens/search_screen.dart';
 
 const webScreenSize = 600;
 

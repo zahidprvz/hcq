@@ -7,6 +7,8 @@ import 'package:hcq/widgets/story_elements.dart';
 StoryBrain storyBrain = StoryBrain();
 
 class GameScreen extends StatefulWidget {
+  const GameScreen({super.key});
+
   @override
   _GameScreenState createState() => _GameScreenState();
 }
@@ -122,7 +124,7 @@ class _GameScreenState extends State<GameScreen> {
               child: Text(choice),
             ),
           );
-        }).toList(),
+        }),
       ],
     );
   }

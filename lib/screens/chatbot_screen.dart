@@ -14,7 +14,7 @@ const String _classesFile = "assets/classes.json";
 class ChatBotScreen extends StatefulWidget {
   final String uid;
 
-  const ChatBotScreen({Key? key, required this.uid}) : super(key: key);
+  const ChatBotScreen({super.key, required this.uid});
 
   @override
   _ChatBotScreenState createState() => _ChatBotScreenState();
@@ -30,7 +30,7 @@ class ChatMessage {
 class ChatBubble extends StatelessWidget {
   final ChatMessage message;
 
-  const ChatBubble({Key? key, required this.message}) : super(key: key);
+  const ChatBubble({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +142,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
         }).toList();
       });
       // Ensure the list scrolls to the bottom
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         _scrollToBottom();
       });
     });
@@ -249,7 +249,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   }
 
   void _scrollToBottom() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
           _scrollController.position.minScrollExtent,

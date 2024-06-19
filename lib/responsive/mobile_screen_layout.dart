@@ -5,7 +5,7 @@ import 'package:hcq/utils/global_variables.dart';
 import 'package:hcq/widgets/custom_drawer.dart'; // Import the CustomDrawer widget
 
 class MobileScreenLayout extends StatefulWidget {
-  const MobileScreenLayout({Key? key}) : super(key: key);
+  const MobileScreenLayout({super.key});
 
   @override
   State<MobileScreenLayout> createState() => _MobileScreenLayoutState();
@@ -17,7 +17,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(), // Use CustomDrawer here
+      drawer: const CustomDrawer(), // Use CustomDrawer here
       body: homeScreenItems[_page], // Display the current page
       bottomNavigationBar: CupertinoTabBar(
         backgroundColor: mobileBackgroundColor,
