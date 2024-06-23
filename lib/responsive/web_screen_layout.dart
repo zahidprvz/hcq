@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hcq/utils/colors.dart';
 import 'package:hcq/utils/global_variables.dart';
+import 'package:hcq/widgets/custom_drawer.dart'; // Import the CustomDrawer widget
 
 class WebScreenLayout extends StatefulWidget {
   const WebScreenLayout({super.key});
@@ -51,40 +52,45 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
           IconButton(
             onPressed: () => navigationTapped(0),
             icon: Icon(
-              Icons.home,
+              Icons.dashboard,
               color: _page == 0 ? primaryColor : secondaryColor,
             ),
           ),
           IconButton(
             onPressed: () => navigationTapped(1),
             icon: Icon(
-              Icons.search,
+              Icons.notifications,
               color: _page == 1 ? primaryColor : secondaryColor,
             ),
           ),
           IconButton(
             onPressed: () => navigationTapped(2),
-            icon: Icon(
-              Icons.people_alt_outlined,
+            icon: Image.asset(
+              'assets/icons/ai-chatting.png',
+              height: 60, // Adjusted height for AI chatting icon
+              width: 60, // Adjusted width for AI chatting icon
               color: _page == 2 ? primaryColor : secondaryColor,
             ),
           ),
           IconButton(
             onPressed: () => navigationTapped(3),
             icon: Icon(
-              Icons.notifications,
+              Icons.article,
               color: _page == 3 ? primaryColor : secondaryColor,
             ),
           ),
           IconButton(
             onPressed: () => navigationTapped(4),
-            icon: Icon(
-              Icons.person,
+            icon: Image.asset(
+              'assets/icons/community-icon.png',
+              height: 30, // Normal icon size
+              width: 30, // Normal icon size
               color: _page == 4 ? primaryColor : secondaryColor,
             ),
           ),
         ],
       ),
+      drawer: const CustomDrawer(), // Use CustomDrawer here
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
