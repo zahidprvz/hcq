@@ -10,7 +10,7 @@ import 'package:intl/intl.dart'; // Add this import for date formatting
 import 'package:hcq/utils/colors.dart'; // Adjust the import path as per your project structure
 
 class MapScreen2 extends StatefulWidget {
-  const MapScreen2({Key? key}) : super(key: key);
+  const MapScreen2({super.key});
 
   @override
   State<MapScreen2> createState() => _MapScreen2State();
@@ -30,7 +30,7 @@ class _MapScreen2State extends State<MapScreen2> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       await fetchLocationUpdates();
     });
     setCustomMarkerIcon();

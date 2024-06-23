@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hcq/screens/chatbot_screen.dart';
 import 'package:hcq/screens/colon_cancer_article_screen.dart';
 import 'package:hcq/screens/dashboard_screen.dart';
-import 'package:hcq/screens/doctors_screen.dart';
 import 'package:hcq/screens/feed_screen.dart';
 import 'package:hcq/screens/notification_screen.dart';
-import 'package:hcq/services/colon_cancer_article_services.dart';
 
 const webScreenSize = 600;
 const String mapApiKey = 'AIzaSyCFanwauncnnYJffClDptthcx_QohDLWVY';
@@ -17,7 +15,7 @@ List<Widget> homeScreenItems = [
   ChatBotScreen(
     uid: FirebaseAuth.instance.currentUser!.uid,
   ),
-  ColonCancerArticlesScreen(),
+  const ColonCancerArticlesScreen(),
   // const ProfileCustomizationWidget(),
   const FeedScreen(),
 ];

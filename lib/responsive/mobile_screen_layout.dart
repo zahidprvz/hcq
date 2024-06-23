@@ -48,13 +48,12 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
             label: 'Ask AI',
           ),
           BottomNavigationBarItem(
-            icon: Image.asset(
-              'assets/icons/doctor-icon.png',
-              height: 24, // Normal icon size
-              width: 24, // Normal icon size
-              color: _page == 3 ? primaryColor : secondaryColor,
+            icon: Icon(
+              Icons.article,
+              size: 24, // Normal icon size
+              color: _page == 0 ? primaryColor : secondaryColor,
             ),
-            label: 'Doctor',
+            label: 'Articles',
           ),
           BottomNavigationBarItem(
             icon: Image.asset(

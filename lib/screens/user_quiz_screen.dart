@@ -245,11 +245,11 @@ class AnswerTile extends StatelessWidget {
   final ValueChanged<bool> onSelected;
 
   const AnswerTile({
-    Key? key,
+    super.key,
     required this.answer,
     required this.isSelected,
     required this.onSelected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

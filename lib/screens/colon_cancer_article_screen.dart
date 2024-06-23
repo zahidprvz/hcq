@@ -5,6 +5,8 @@ import 'package:hcq/utils/colors.dart';
 import 'package:hcq/widgets/article_card.dart'; // Import the ArticleCard widget
 
 class ColonCancerArticlesScreen extends StatefulWidget {
+  const ColonCancerArticlesScreen({super.key});
+
   @override
   _ColonCancerArticlesScreenState createState() =>
       _ColonCancerArticlesScreenState();

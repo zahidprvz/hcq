@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:hcq/resources/auth_methods.dart';
 import 'package:hcq/responsive/mobile_screen_layout.dart';
 import 'package:hcq/responsive/responsive_layout_screen.dart';

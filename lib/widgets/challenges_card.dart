@@ -49,7 +49,7 @@ class ChallengesSelectionCard extends StatelessWidget {
                   () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PainManagementWidget(),
+                      builder: (context) => const PainManagementWidget(),
                     ),
                   ),
                 ),
@@ -60,7 +60,7 @@ class ChallengesSelectionCard extends StatelessWidget {
                   () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => WeaknessManagementWidget(),
+                      builder: (context) => const WeaknessManagementWidget(),
                     ),
                   ),
                 ),
@@ -71,7 +71,7 @@ class ChallengesSelectionCard extends StatelessWidget {
                   () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => WeightLossManagementWidget(),
+                      builder: (context) => const WeightLossManagementWidget(),
                     ),
                   ),
                 ),
@@ -113,7 +113,7 @@ class ChallengesSelectionCard extends StatelessWidget {
                   () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => GastricIssuesManagementWidget(),
+                      builder: (context) => const GastricIssuesManagementWidget(),
                     ),
                   ),
                 ),

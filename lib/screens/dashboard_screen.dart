@@ -9,10 +9,10 @@ import 'package:hcq/screens/colon_cancer_article_screen.dart';
 import 'package:hcq/screens/game_screen.dart';
 import 'package:hcq/utils/colors.dart';
 import 'package:hcq/widgets/challenges_card.dart';
-import 'package:hcq/widgets/article_card.dart'; // Import your ArticleCard widget
+// Import your ArticleCard widget
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
+  const DashboardScreen({super.key});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -97,7 +97,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ColonCancerArticlesScreen(),
+                    builder: (context) => const ColonCancerArticlesScreen(),
                   ),
                 );
               },

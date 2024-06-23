@@ -6,7 +6,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
 
 class MapScreen extends StatelessWidget {
-  const MapScreen({Key? key}) : super(key: key);
+  const MapScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

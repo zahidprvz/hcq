@@ -6,7 +6,7 @@ import 'package:html/parser.dart' show parse;
 class ArticleCard extends StatelessWidget {
   final Article article;
 
-  const ArticleCard({Key? key, required this.article}) : super(key: key);
+  const ArticleCard({super.key, required this.article});
 
   @override
   Widget build(BuildContext context) {

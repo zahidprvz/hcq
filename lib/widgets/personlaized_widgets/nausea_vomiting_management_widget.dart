@@ -15,10 +15,10 @@ class NauseaVomitingManagementWidget extends StatelessWidget {
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
-        children: [
+        children: const [
           TipCard(
             title: "Dietary Tips",
-            tips: const [
+            tips: [
               "Eat small, frequent meals: Avoid large meals and opt for smaller portions throughout the day.",
               "Choose bland foods: Stick to easily digestible foods such as crackers, toast, bananas, and rice.",
               "Stay hydrated: Sip clear fluids like water, herbal tea, or electrolyte drinks to prevent dehydration.",
@@ -26,7 +26,7 @@ class NauseaVomitingManagementWidget extends StatelessWidget {
           ),
           TipCard(
             title: "Food and Drink Choices",
-            tips: const [
+            tips: [
               "Avoid trigger foods: Steer clear of spicy, greasy, or strong-smelling foods that may exacerbate nausea.",
               "Cold foods: Cold or room-temperature foods may be better tolerated than hot meals.",
               "Ginger: Try ginger tea, ginger ale, or ginger candies, known for their anti-nausea properties.",
@@ -34,7 +34,7 @@ class NauseaVomitingManagementWidget extends StatelessWidget {
           ),
           TipCard(
             title: "Behavioral Strategies",
-            tips: const [
+            tips: [
               "Rest after eating: Avoid lying down immediately after eating to reduce the risk of nausea.",
               "Fresh air: Open windows or step outside for fresh air if feeling nauseous.",
               "Relaxation techniques: Practice deep breathing or meditation to alleviate stress-related nausea.",
@@ -42,7 +42,7 @@ class NauseaVomitingManagementWidget extends StatelessWidget {
           ),
           TipCard(
             title: "Medications",
-            tips: const [
+            tips: [
               "Over-the-counter options: Consider medications like antihistamines or anti-nausea drugs under medical guidance.",
               "Prescription medications: Consult with healthcare providers for stronger medications if needed.",
               "Supplements: Explore options like vitamin B6 or ginger supplements, known to ease nausea.",
@@ -50,7 +50,7 @@ class NauseaVomitingManagementWidget extends StatelessWidget {
           ),
           TipCard(
             title: "Hygiene and Comfort",
-            tips: const [
+            tips: [
               "Oral hygiene: Brush teeth or use mouthwash after vomiting to freshen breath and reduce discomfort.",
               "Cool cloths: Apply cool cloths to the forehead or back of the neck to ease discomfort.",
               "Comfortable clothing: Wear loose-fitting clothing to avoid unnecessary pressure on the abdomen.",

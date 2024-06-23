@@ -8,7 +8,7 @@ import 'package:hcq/screens/map_screen2.dart'; // Import your map screen
 import 'package:hcq/utils/colors.dart';
 
 class AppointmentsScreen extends StatefulWidget {
-  const AppointmentsScreen({Key? key}) : super(key: key);
+  const AppointmentsScreen({super.key});
 
   @override
   State<AppointmentsScreen> createState() => _AppointmentsScreenState();

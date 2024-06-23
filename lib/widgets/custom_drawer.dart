@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hcq/screens/about_screen.dart';
-import 'package:hcq/screens/doctors_screen.dart';
 import 'package:hcq/screens/feed_screen.dart';
 import 'package:hcq/screens/game_screen.dart';
 import 'package:hcq/screens/map_screen2.dart';
@@ -15,7 +13,7 @@ import 'package:hcq/utils/colors.dart';
 import 'package:hcq/widgets/profile_customization_widget.dart';
 
 class CustomDrawer extends StatefulWidget {
-  const CustomDrawer({Key? key}) : super(key: key);
+  const CustomDrawer({super.key});
 
   @override
   _CustomDrawerState createState() => _CustomDrawerState();
@@ -146,7 +144,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.feed),
+            leading: const Icon(Icons.location_pin),
             title: const Text('Locate Clinic Nearby'),
             onTap: () {
               Navigator.push(
@@ -213,7 +211,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AboutScreen()),
+                MaterialPageRoute(builder: (context) => const AboutScreen()),
               );
             },
           ),

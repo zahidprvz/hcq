@@ -4,7 +4,7 @@ class TipCard extends StatelessWidget {
   final String title;
   final List<String> tips;
 
-  TipCard({required this.title, required this.tips});
+  const TipCard({super.key, required this.title, required this.tips});
 
   @override
   Widget build(BuildContext context) {

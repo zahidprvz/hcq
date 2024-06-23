@@ -9,7 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:hcq/widgets/text_field_input.dart';
 
 class ProfileCustomizationWidget extends StatefulWidget {
-  const ProfileCustomizationWidget({Key? key}) : super(key: key);
+  const ProfileCustomizationWidget({super.key});
 
   @override
   _ProfileCustomizationWidgetState createState() =>
@@ -109,7 +109,7 @@ class _ProfileCustomizationWidgetState
   Future<String> _uploadImageToStorage(String uid) async {
     try {
       FirebaseStorage storage = FirebaseStorage.instance;
-      String fileName = uid + '_profile.jpg';
+      String fileName = '${uid}_profile.jpg';
       Reference reference = storage.ref().child('profile_images/$fileName');
       UploadTask uploadTask = reference.putFile(_imageFile!);
       TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
