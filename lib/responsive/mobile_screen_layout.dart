@@ -51,7 +51,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
             icon: Icon(
               Icons.article,
               size: 24, // Normal icon size
-              color: _page == 0 ? primaryColor : secondaryColor,
+              color: _page == 3 ? primaryColor : secondaryColor,
             ),
             label: 'Articles',
           ),

@@ -41,7 +41,7 @@ class _QuizScreenState extends State<QuizScreen> {
             quizzesData.map((quizJson) => Quiz.fromJson(quizJson)).toList();
       });
     } catch (e) {
-      print('Error loading quizzes: $e');
+      // print('Error loading quizzes: $e');
       // Handle error loading quizzes
     }
   }
@@ -107,7 +107,7 @@ class _QuizScreenState extends State<QuizScreen> {
         isLoading = false;
       });
     } catch (e) {
-      print('Error checking user quiz status: $e');
+      // print('Error checking user quiz status: $e');
       setState(() {
         isLoading = false;
       });
@@ -125,9 +125,9 @@ class _QuizScreenState extends State<QuizScreen> {
         'quizzes': userAnswers,
       }, SetOptions(merge: true));
       // Show success message or navigate to next screen
-      print('Quiz responses submitted successfully');
+      // print('Quiz responses submitted successfully');
     } catch (e) {
-      print('Error submitting quiz responses: $e');
+      // print('Error submitting quiz responses: $e');
       // Handle error submitting quiz responses
     }
   }
@@ -143,9 +143,9 @@ class _QuizScreenState extends State<QuizScreen> {
         'quizzes': userAnswers,
       });
       // Show success message or navigate to next screen
-      print('Quiz responses updated successfully');
+      // print('Quiz responses updated successfully');
     } catch (e) {
-      print('Error updating quiz responses: $e');
+      // print('Error updating quiz responses: $e');
       // Handle error updating quiz responses
     }
   }

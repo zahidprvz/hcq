@@ -59,9 +59,9 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
 
     try {
       await appointmentsRef.doc(appointmentId).delete();
-      print('Appointment deleted successfully');
+      // print('Appointment deleted successfully');
     } catch (e) {
-      print('Error deleting appointment: $e');
+      // print('Error deleting appointment: $e');
     }
   }
 

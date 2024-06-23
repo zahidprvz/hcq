@@ -74,7 +74,7 @@ class MapScreen extends StatelessWidget {
           desiredAccuracy: LocationAccuracy.high);
       return LatLng(position.latitude, position.longitude);
     } catch (e) {
-      print('Error getting current location: $e');
+      // print('Error getting current location: $e');
       return const LatLng(
           38.8951, -77.0364); // Default location (Washington, DC)
     }
@@ -117,7 +117,7 @@ class MapScreen extends StatelessWidget {
         throw Exception('Failed to load clinics');
       }
     } catch (e) {
-      print('Error getting nearby clinics: $e');
+      // print('Error getting nearby clinics: $e');
       return []; // Return empty list if there's an error
     }
   }

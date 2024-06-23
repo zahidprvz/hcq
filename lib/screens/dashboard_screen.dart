@@ -1,26 +1,23 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart'; // For date formatting
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hcq/screens/appointment_screen.dart'; // Import your appointment screen
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hcq/screens/chatbot_screen.dart';
+import 'package:hcq/screens/user_quiz_screen.dart';
+import 'package:intl/intl.dart';
+import 'package:hcq/screens/appointment_screen.dart';
 import 'package:hcq/screens/colon_cancer_article_screen.dart';
 import 'package:hcq/screens/game_screen.dart';
 import 'package:hcq/utils/colors.dart';
 import 'package:hcq/widgets/challenges_card.dart';
-// Import your ArticleCard widget
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+  const DashboardScreen({Key? key}) : super(key: key);
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  late StreamSubscription<DateTime> _timerSubscription;
-  late Stream<QuerySnapshot> _appointmentsStream;
   bool hasAppointments = false;
   String appointmentDetails = '';
 
@@ -28,13 +25,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     _loadAppointments();
-    _startTimer();
-  }
-
-  @override
-  void dispose() {
-    _timerSubscription.cancel();
-    super.dispose();
   }
 
   void _loadAppointments() {
@@ -44,15 +34,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
         .doc(uid)
         .collection('userAppointments');
 
-    _appointmentsStream = appointmentsRef.snapshots();
-  }
-
-  void _startTimer() {
-    _timerSubscription = Stream<DateTime>.periodic(
-      const Duration(seconds: 1),
-      (count) => DateTime.now(),
-    ).listen((currentTime) {
-      setState(() {}); // Update UI every second
+    appointmentsRef.get().then((snapshot) {
+      _checkAppointmentsStatus(snapshot);
     });
   }
 
@@ -102,11 +85,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 );
               },
               child: const Text(
-                'View All educational Articles',
+                'View All Educational Articles',
                 style: TextStyle(color: secondaryColor),
               ),
             ),
-            // Add any additional widgets below if needed
+            const SizedBox(height: 20.0),
+            _buildAIChatCard(),
+            const SizedBox(height: 20.0),
+            _buildQuizCard(), // Add the quiz card here
           ],
         ),
       ),
@@ -152,9 +138,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             const Text(
               'Schedule an Appointment',
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
-                  color: Colors.black),
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+                color: Colors.black,
+              ),
             ),
             const SizedBox(height: 10.0),
             const Text(
@@ -167,11 +154,104 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const AppointmentsScreen()),
+                    builder: (context) => const AppointmentsScreen(),
+                  ),
                 );
               },
               child: const Text(
                 'Schedule Appointment',
+                style: TextStyle(color: secondaryColor),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAIChatCard() {
+    return Card(
+      color: Colors.white,
+      elevation: 4.0,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Chat with AI',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            const Text(
+              'Have a chat with our AI assistant to get answers to your queries.',
+              style: TextStyle(fontSize: 14.0, color: Colors.black),
+            ),
+            const SizedBox(height: 10.0),
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to AI Chat Screen
+                // Replace `ChatScreen` with your actual AI chat screen widget
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ChatBotScreen(
+                            uid: FirebaseAuth.instance.currentUser!.uid,
+                          )),
+                );
+              },
+              child: const Text(
+                'Start Chat',
+                style: TextStyle(color: secondaryColor),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildQuizCard() {
+    return Card(
+      color: Colors.white,
+      elevation: 4.0,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Give a Quiz and Know Yourself Better',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            const Text(
+              'Take a quiz to understand more about your health and get personalized insights.',
+              style: TextStyle(fontSize: 14.0, color: Colors.black),
+            ),
+            const SizedBox(height: 10.0),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => QuizScreen(
+                      uid: FirebaseAuth.instance.currentUser!.uid,
+                      quizFilePath: 'assets/quiz_question_answers.json',
+                    ),
+                  ),
+                );
+              },
+              child: const Text(
+                'Start Quiz',
                 style: TextStyle(color: secondaryColor),
               ),
             ),
@@ -222,9 +302,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     try {
       await appointmentsRef.doc(appointmentId).delete();
-      print('Appointment deleted successfully');
+      // print('Appointment deleted successfully');
     } catch (e) {
-      print('Error deleting appointment: $e');
+      // print('Error deleting appointment: $e');
     }
   }
 }

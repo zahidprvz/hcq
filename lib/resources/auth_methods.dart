@@ -43,7 +43,7 @@ class AuthMethods {
           password: password,
         );
 
-        print(cred.user!.uid);
+        // print(cred.user!.uid);
 
         String photoUrl = '';
         if (file != null) {

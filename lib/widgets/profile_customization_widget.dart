@@ -115,7 +115,7 @@ class _ProfileCustomizationWidgetState
       TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
       return await taskSnapshot.ref.getDownloadURL();
     } catch (e) {
-      print('Error uploading image: $e');
+      // print('Error uploading image: $e');
       return '';
     }
   }

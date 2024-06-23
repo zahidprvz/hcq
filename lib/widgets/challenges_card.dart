@@ -15,7 +15,7 @@ class ChallengesSelectionCard extends StatelessWidget {
     return Card(
       color: primaryColor,
       elevation: 4,
-      margin: const EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(6.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -113,7 +113,8 @@ class ChallengesSelectionCard extends StatelessWidget {
                   () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const GastricIssuesManagementWidget(),
+                      builder: (context) =>
+                          const GastricIssuesManagementWidget(),
                     ),
                   ),
                 ),

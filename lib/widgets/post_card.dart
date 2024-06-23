@@ -46,7 +46,7 @@ class _PostCardState extends State<PostCard> {
         commentLen = snap.docs.length;
       });
     } catch (e) {
-      print('Error fetching comments: $e');
+      // print('Error fetching comments: $e');
       showSnackBar(e.toString(), context);
     }
   }

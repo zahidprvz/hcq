@@ -69,7 +69,7 @@ class FirestoreMethods {
         );
       }
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
     }
   }
 
@@ -134,13 +134,13 @@ class FirestoreMethods {
             });
           }
         } else {
-          print('Comment data is null');
+          // print('Comment data is null');
         }
       } else {
-        print('Comment document does not exist');
+        // print('Comment document does not exist');
       }
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
     }
   }
 
@@ -149,7 +149,7 @@ class FirestoreMethods {
     try {
       await _firestore.collection('posts').doc(postId).delete();
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
     }
   }
 
@@ -180,7 +180,7 @@ class FirestoreMethods {
         });
       }
     } catch (e) {
-      print(e.toString());
+      // print(e.toString());
     }
   }
 
@@ -314,9 +314,9 @@ class FirestoreMethods {
         await doc.reference.delete();
       }
 
-      print('User messages deleted!');
+      // print('User messages deleted!');
     } catch (e) {
-      print('Error deleting chat: $e');
+      // print('Error deleting chat: $e');
     }
   }
 }

@@ -198,18 +198,17 @@ class _MapScreen2State extends State<MapScreen2> {
     final String requestUrl =
         '$apiUrl?location=${center.latitude},${center.longitude}&radius=5000&type=hospital&keyword=clinic&key=$apiKey';
 
-    print('Request URL: $requestUrl'); // Print the request URL for debugging
+    // print('Request URL: $requestUrl'); // Print the request URL for debugging
 
     try {
       final response = await http.get(Uri.parse(requestUrl));
 
-      print(
-          'fetchNearbyClinics response: ${response.body}'); // Print the response body
+      // print('fetchNearbyClinics response: ${response.body}'); // Print the response body
 
       if (response.statusCode == 200) {
         List<dynamic> results = jsonDecode(response.body)['results'];
         if (results.isEmpty) {
-          print('No clinics found.');
+          // print('No clinics found.');
         }
         Set<Marker> newMarkers = results.map((result) {
           double lat = result['geometry']['location']['lat'];
@@ -228,7 +227,7 @@ class _MapScreen2State extends State<MapScreen2> {
             icon: customIcon ??
                 BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
             onTap: () {
-              print('Marker tapped: $name, $address, $placeId');
+              // print('Marker tapped: $name, $address, $placeId');
               showClinicDetails(placeId);
             },
           );
@@ -238,10 +237,10 @@ class _MapScreen2State extends State<MapScreen2> {
           markers = newMarkers;
         });
       } else {
-        print('Failed to load clinics: ${response.body}');
+        // print('Failed to load clinics: ${response.body}');
       }
     } catch (e) {
-      print('Error fetching nearby clinics: $e');
+      // print('Error fetching nearby clinics: $e');
     }
   }
 
@@ -255,8 +254,7 @@ class _MapScreen2State extends State<MapScreen2> {
     try {
       final response = await http.get(Uri.parse(requestUrl));
 
-      print(
-          'showClinicDetails response: ${response.body}'); // Print the response body
+      // print('showClinicDetails response: ${response.body}'); // Print the response body
 
       if (response.statusCode == 200) {
         Map<String, dynamic> result = jsonDecode(response.body)['result'];
@@ -273,10 +271,10 @@ class _MapScreen2State extends State<MapScreen2> {
           _clinicWebsite = website;
         });
       } else {
-        print('Failed to load clinic details: ${response.body}');
+        // print('Failed to load clinic details: ${response.body}');
       }
     } catch (e) {
-      print('Error fetching clinic details: $e');
+      // print('Error fetching clinic details: $e');
     }
   }
 

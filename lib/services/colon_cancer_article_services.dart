@@ -10,7 +10,7 @@ class ColonCancerArticleService {
 
     if (response.statusCode == 200) {
       final document = XmlDocument.parse(response.body);
-      print(document.toXmlString(pretty: true)); // Debug the XML response
+      // print(document.toXmlString(pretty: true)); // Debug the XML response
 
       final items = document.findAllElements('document');
       return items.map((item) => Article.fromXml(item)).toList();
