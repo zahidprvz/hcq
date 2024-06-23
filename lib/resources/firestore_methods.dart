@@ -273,7 +273,7 @@ class FirestoreMethods {
         );
 
         await _firestore
-            .collection('user_chats')
+            .collection('chatbot_chats')
             .doc(chatId)
             .collection('messages')
             .doc(firestoreMessage.messageId)
@@ -291,7 +291,7 @@ class FirestoreMethods {
   Stream<List<Message>> loadChatWithChatbot(String uid) {
     String chatId = uid; // Use user's UID as chat ID for simplicity
     return _firestore
-        .collection('user_chats')
+        .collection('chatbot_chats')
         .doc(chatId)
         .collection('messages')
         .orderBy('timestamp', descending: true)
@@ -303,8 +303,10 @@ class FirestoreMethods {
 // method to delete chat with chatbot
   Future<void> deleteChatWithChatbot(String uid) async {
     try {
-      CollectionReference messagesRef =
-          _firestore.collection('user_chats').doc(uid).collection('messages');
+      CollectionReference messagesRef = _firestore
+          .collection('chatbot_chats')
+          .doc(uid)
+          .collection('messages');
 
       QuerySnapshot snapshot = await messagesRef.get();
 

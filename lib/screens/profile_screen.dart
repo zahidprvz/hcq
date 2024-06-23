@@ -8,6 +8,7 @@ import 'package:hcq/screens/chat_screen.dart';
 import 'package:hcq/widgets/follow_button.dart';
 import 'package:hcq/utils/colors.dart';
 import 'package:hcq/utils/utils.dart';
+import 'package:hcq/widgets/profile_customization_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
@@ -96,6 +97,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         icon: const Icon(Icons.settings),
                         onPressed: () {
                           // Navigate to settings screen
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const ProfileCustomizationWidget(),
+                            ),
+                          );
                         },
                       )
                     : IconButton(

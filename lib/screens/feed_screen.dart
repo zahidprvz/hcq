@@ -25,7 +25,6 @@ class FeedScreen extends StatelessWidget {
               title: const Text("Community"),
               centerTitle: true,
               actions: [
-
                 IconButton(
                   onPressed: () {
                     Navigator.push(
@@ -61,7 +60,7 @@ class FeedScreen extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(
-                color: Colors.white,
+                color: secondaryColor,
               ),
             );
           }

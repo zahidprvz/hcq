@@ -51,5 +51,10 @@
 	<string>Camera Library Usage</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Microphone Library Usage</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your location is required to show nearby clinics.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Your location is required to show nearby clinics.</string>
+
 </dict>
 </plist>

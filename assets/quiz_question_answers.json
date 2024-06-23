@@ -1,0 +1,135 @@
+{
+  "quizzes": [
+    {
+      "id": "quiz1",
+      "title": "Quiz 1",
+      "questions": [
+        {
+          "id": "q1",
+          "text": "Have you ever had cancer or do you have any history of cancer in your immediate family?",
+          "answers": [
+            {"id": "a1", "text": "Yes"},
+            {"id": "a2", "text": "No"}
+          ]
+        },
+        {
+          "id": "q2",
+          "text": "What sex were you assigned at birth?",
+          "answers": [
+            {"id": "a3", "text": "Male"},
+            {"id": "a4", "text": "Female"},
+            {"id": "a5", "text": "Prefer not to say"}
+          ]
+        },
+        {
+          "id": "q3",
+          "text": "How old are you?",
+          "answers": [
+            {"id": "a6", "text": "Under 18"},
+            {"id": "a7", "text": "18-30"},
+            {"id": "a8", "text": "31-50"},
+            {"id": "a9", "text": "Over 50"}
+          ]
+        },
+        {
+          "id": "q4",
+          "text": "What race do you identify as? (Choose all that apply.)",
+          "answers": [
+            {"id": "a10", "text": "Asian"},
+            {"id": "a11", "text": "Black or African American"},
+            {"id": "a12", "text": "Hispanic or Latino"},
+            {"id": "a13", "text": "Native American or American Indian"},
+            {"id": "a14", "text": "White or Caucasian"},
+            {"id": "a15", "text": "Other"}
+          ]
+        },
+        {
+          "id": "q5",
+          "text": "Do you smoke or have you ever smoked?",
+          "answers": [
+            {"id": "a16", "text": "Yes, currently"},
+            {"id": "a17", "text": "Yes, in the past"},
+            {"id": "a18", "text": "No, never"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quiz2",
+      "title": "Quiz 2",
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What is your height and weight? (Used to determine your body mass index, or BMI, for results.)",
+          "answers": [
+            {"id": "a19", "text": "Underweight"},
+            {"id": "a20", "text": "Normal weight"},
+            {"id": "a21", "text": "Overweight"},
+            {"id": "a22", "text": "Obese"}
+          ]
+        },
+        {
+          "id": "q2",
+          "text": "What does your activity level look like? (Intentional activity refers to structured exercise for the purpose of increasing fitness, such as running, cycling, or going to the gym.)",
+          "answers": [
+            {"id": "a23", "text": "Sedentary"},
+            {"id": "a24", "text": "Lightly active"},
+            {"id": "a25", "text": "Moderately active"},
+            {"id": "a26", "text": "Very active"}
+          ]
+        },
+        {
+          "id": "q3",
+          "text": "How would you describe your diet? (Select what best applies to your diet.)",
+          "answers": [
+            {"id": "a27", "text": "Vegetarian"},
+            {"id": "a28", "text": "Vegan"},
+            {"id": "a29", "text": "Pescatarian"},
+            {"id": "a30", "text": "Low-carb"},
+            {"id": "a31", "text": "Mediterranean"},
+            {"id": "a32", "text": "Other"}
+          ]
+        },
+        {
+          "id": "q4",
+          "text": "How often do you drink alcohol?",
+          "answers": [
+            {"id": "a33", "text": "Never"},
+            {"id": "a34", "text": "Rarely"},
+            {"id": "a35", "text": "Occasionally"},
+            {"id": "a36", "text": "Regularly"}
+          ]
+        },
+        {
+          "id": "q5",
+          "text": "Do you use or have you ever used tobacco or nicotine products such as cigarettes, vapes, chewing tobacco, etc.?",
+          "answers": [
+            {"id": "a37", "text": "Yes, currently"},
+            {"id": "a38", "text": "Yes, in the past"},
+            {"id": "a39", "text": "No, never"}
+          ]
+        },
+        {
+          "id": "q6",
+          "text": "How often do you protect yourself from the sun? (Select which option best applies.)",
+          "answers": [
+            {"id": "a40", "text": "Always"},
+            {"id": "a41", "text": "Most of the time"},
+            {"id": "a42", "text": "Sometimes"},
+            {"id": "a43", "text": "Rarely or never"}
+          ]
+        },
+        {
+          "id": "q7",
+          "text": "How much sleep do you normally get per night?",
+          "answers": [
+            {"id": "a44", "text": "Less than 4 hours"},
+            {"id": "a45", "text": "4-6 hours"},
+            {"id": "a46", "text": "6-8 hours"},
+            {"id": "a47", "text": "More than 8 hours"}
+          ]
+        }
+      ]
+    }
+  ]
+}

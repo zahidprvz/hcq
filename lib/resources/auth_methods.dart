@@ -17,13 +17,16 @@ class AuthMethods {
     return model.User.fromSnap(snap);
   }
 
-  // sign up the user
   Future<String> signupUser({
     required String email,
     required String password,
     required String username,
-    required String age,
-    required Uint8List file,
+    required DateTime? dateOfBirth,
+    required String gender,
+    required String phone,
+    required Uint8List? file,
+    required bool userAgreementAccepted,
+    required bool privacyPolicyAccepted,
   }) async {
     String res = "Some error occurred";
 
@@ -31,23 +34,33 @@ class AuthMethods {
       if (email.isNotEmpty &&
           password.isNotEmpty &&
           username.isNotEmpty &&
-          age.isNotEmpty) {
-        // registering user here
+          dateOfBirth != null &&
+          userAgreementAccepted &&
+          privacyPolicyAccepted) {
+        // Registering user here
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
-            email: email, password: password);
+          email: email,
+          password: password,
+        );
 
         print(cred.user!.uid);
 
-        String photoUrl = await StorageMethods()
-            .uploadImageToStorage('profilePics', file, false);
+        String photoUrl = '';
+        if (file != null) {
+          photoUrl = await StorageMethods()
+              .uploadImageToStorage('profilePics', file, false);
+        }
 
-        // adding user to database
-
+        // Adding user to database
         model.User user = model.User(
           username: username,
           uid: cred.user!.uid,
           email: email,
-          age: age,
+          dateOfBirth: dateOfBirth,
+          gender: gender,
+          phone: phone,
+          userAgreementAccepted: userAgreementAccepted,
+          privacyPolicyAccepted: privacyPolicyAccepted,
           followers: [],
           following: [],
           photoUrl: photoUrl,
@@ -59,7 +72,7 @@ class AuthMethods {
 
         res = 'success';
       } else {
-        res = 'Please fill all the fields';
+        res = 'Please fill all the required fields and accept agreements';
       }
     } catch (err) {
       res = err.toString();
@@ -67,7 +80,6 @@ class AuthMethods {
     return res;
   }
 
-  // loggin in user
   Future<String> loginUser({
     required String email,
     required String password,
@@ -88,7 +100,6 @@ class AuthMethods {
     return res;
   }
 
-  // sign out
   Future<void> signOut() async {
     await _auth.signOut();
   }
