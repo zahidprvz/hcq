@@ -21,13 +21,40 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _verificationCodeController =
+      TextEditingController();
   bool _isLoading = false;
+  bool _isCodeSent = false;
 
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _verificationCodeController.dispose();
+  }
+
+  void sendVerificationCode() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    String res = await AuthMethods().sendVerificationCode(
+      email: _emailController.text,
+    );
+
+    if (res == 'success') {
+      setState(() {
+        _isCodeSent = true;
+      });
+      showSnackBar('Verification code sent to your email', context);
+    } else {
+      showSnackBar(res, context);
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   void loginUser() async {
@@ -41,6 +68,26 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     if (res == 'success') {
+      sendVerificationCode();
+    } else {
+      showSnackBar(res, context);
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  void verifyCodeAndLogin() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    String res = await AuthMethods().verifyCode(
+      email: _emailController.text,
+      code: _verificationCodeController.text,
+    );
+
+    if (res == 'success') {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => const ResponsiveLayout(
@@ -51,10 +98,10 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } else {
       showSnackBar(res, context);
+      setState(() {
+        _isLoading = false;
+      });
     }
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   void navigateToSignup() {
@@ -112,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 // Button
                 InkWell(
-                  onTap: loginUser,
+                  onTap: _isCodeSent ? verifyCodeAndLogin : loginUser,
                   child: Container(
                     width: double.infinity,
                     alignment: Alignment.center,
@@ -131,14 +178,23 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: primaryColor,
                             ),
                           )
-                        : const Text(
-                            'Login',
-                            style: TextStyle(color: primaryColor),
+                        : Text(
+                            _isCodeSent ? 'Verify Code' : 'Login',
+                            style: const TextStyle(color: primaryColor),
                           ),
                   ),
                 ),
                 const SizedBox(
-                  height: 12.0,
+                  height: 24.0,
+                ),
+                if (_isCodeSent)
+                  TextFieldInput(
+                    hintText: 'Enter the verification code',
+                    textEditingController: _verificationCodeController,
+                    textInputType: TextInputType.number,
+                  ),
+                const SizedBox(
+                  height: 24.0,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

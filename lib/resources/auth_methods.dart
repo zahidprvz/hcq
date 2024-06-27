@@ -1,15 +1,17 @@
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hcq/models/user.dart' as model;
 import 'package:hcq/resources/storage_methods.dart';
 
 class AuthMethods {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final firebase_auth.FirebaseAuth _auth = firebase_auth.FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<model.User> getUserDetails() async {
-    User currentUser = _auth.currentUser!;
+    firebase_auth.User currentUser = _auth.currentUser!;
 
     DocumentSnapshot snap =
         await _firestore.collection('users').doc(currentUser.uid).get();
@@ -103,5 +105,61 @@ class AuthMethods {
 
   Future<void> signOut() async {
     await _auth.signOut();
+  }
+
+  // New method to send verification code
+  Future<String> sendVerificationCode({required String email}) async {
+    String res = "Some error occurred!";
+    try {
+      String code = generateVerificationCode();
+      await _firestore
+          .collection('verificationCodes')
+          .doc(email)
+          .set({'code': code});
+
+      // Send email with the verification code
+      // Use your preferred email sending service here
+      await sendEmail(email, code);
+
+      res = 'success';
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  // New method to verify code
+  Future<String> verifyCode(
+      {required String email, required String code}) async {
+    String res = "Some error occurred!";
+    try {
+      DocumentSnapshot snap =
+          await _firestore.collection('verificationCodes').doc(email).get();
+
+      if (snap.exists && snap['code'] == code) {
+        res = 'success';
+      } else {
+        res = 'Invalid verification code';
+      }
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  // Helper method to generate a verification code
+  String generateVerificationCode() {
+    final Random random = Random();
+    const int codeLength = 6;
+    String code = '';
+    for (int i = 0; i < codeLength; i++) {
+      code += random.nextInt(10).toString();
+    }
+    return code;
+  }
+
+  // Placeholder method for sending email
+  Future<void> sendEmail(String email, String code) async {
+    // Implement your email sending logic here
   }
 }

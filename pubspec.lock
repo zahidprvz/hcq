@@ -121,6 +121,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  email_launcher:
+    dependency: "direct main"
+    description:
+      name: email_launcher
+      sha256: "8df7c0988b78a84c7dd3cff8014b48aa40907d42df3d4898308c98be07d26d33"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   fake_async:
     dependency: transitive
     description:

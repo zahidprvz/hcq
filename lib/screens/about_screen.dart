@@ -1,8 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:hcq/utils/colors.dart';
 
 class AboutScreen extends StatelessWidget {
-  const AboutScreen({super.key});
+  const AboutScreen({Key? key});
+
+  Future<void> _launchEmail(String email) async {
+    final Uri _emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: email,
+    );
+    final String emailAddress = _emailLaunchUri.toString();
+    if (await canLaunch(emailAddress)) {
+      await launch(emailAddress);
+    } else {
+      throw 'Could not launch email';
+    }
+  }
+
+  Future<void> _launchPhone(String phone) async {
+    final Uri _phoneLaunchUri = Uri(
+      scheme: 'tel',
+      path: phone,
+    );
+    if (await canLaunch(_phoneLaunchUri.toString())) {
+      await launch(_phoneLaunchUri.toString());
+    } else {
+      throw 'Could not launch phone';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,11 +97,30 @@ class AboutScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 8.0),
-            Text(
-              'For any questions, feedback, or support, please contact us at:\n'
-              'Email: Info@ghmigroup.com\n'
-              'Phone: +1 (281) 547-2572',
-              style: Theme.of(context).textTheme.bodyMedium,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () {},
+                  child: const Text(
+                    'Email: info@globalhealthdiagnostic.com',
+                    style: TextStyle(
+                        // decoration: TextDecoration.underline,
+                        ),
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+                GestureDetector(
+                  onTap: () => _launchPhone('+13465036713'),
+                  child: const Text(
+                    'Phone: +1 346-503-6713',
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colors.blue,
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 16.0),
             const Text(
