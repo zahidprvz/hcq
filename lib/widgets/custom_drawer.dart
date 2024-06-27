@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hcq/screens/about_screen.dart';
+import 'package:hcq/screens/adventure_game_screen.dart';
 import 'package:hcq/screens/feed_screen.dart';
-import 'package:hcq/screens/game_screen.dart';
 import 'package:hcq/screens/map_screen2.dart';
 import 'package:hcq/screens/notification_screen.dart';
 import 'package:hcq/screens/profile_screen.dart';
@@ -160,7 +160,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const GameScreen(),
+                  builder: (context) => AdventureGame(),
                 ),
               );
             },

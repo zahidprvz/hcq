@@ -43,7 +43,8 @@ class AuthMethods {
           password: password,
         );
 
-        // print(cred.user!.uid);
+        // Send email verification
+        await cred.user!.sendEmailVerification();
 
         String photoUrl = '';
         if (file != null) {

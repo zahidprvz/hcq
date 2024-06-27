@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hcq/screens/adventure_game_screen.dart';
 import 'package:hcq/screens/chatbot_screen.dart';
 import 'package:hcq/screens/user_quiz_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:hcq/screens/appointment_screen.dart';
 import 'package:hcq/screens/colon_cancer_article_screen.dart';
-import 'package:hcq/screens/game_screen.dart';
 import 'package:hcq/utils/colors.dart';
 import 'package:hcq/widgets/challenges_card.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
+  const DashboardScreen({super.key});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -58,7 +58,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const GameScreen()),
+                MaterialPageRoute(builder: (context) => AdventureGame()),
               );
             },
           ),

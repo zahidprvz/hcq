@@ -1,9 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:hcq/resources/auth_methods.dart';
-import 'package:hcq/responsive/mobile_screen_layout.dart';
-import 'package:hcq/responsive/responsive_layout_screen.dart';
-import 'package:hcq/responsive/web_screen_layout.dart';
+import 'package:hcq/screens/email_verification_screen.dart';
 import 'package:hcq/screens/login_screen.dart';
 import 'package:hcq/utils/colors.dart';
 import 'package:hcq/utils/global_variables.dart';
@@ -90,12 +88,10 @@ class _SignupScreenState extends State<SignupScreen> {
     if (res != "success") {
       showSnackBar(res, context);
     } else {
+      // Show email verification screen
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const ResponsiveLayout(
-            mobileScreenLayout: MobileScreenLayout(),
-            webScreenLayout: WebScreenLayout(),
-          ),
+          builder: (context) => const EmailVerificationScreen(),
         ),
       );
     }
@@ -149,6 +145,35 @@ class _SignupScreenState extends State<SignupScreen> {
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+
+  void showTermsOfUseDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: mobileBackgroundColor,
+          title: const Text('Terms of Use'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text("Colorectal Cancer\n\n"
+                    "Colorectal cancer (CRC) is a significant global health concern, particularly affecting African Americans, who experience higher incidence and mortality rates compared to other racial groups. Despite advancements in medical technology and awareness campaigns, disparities in CRC screening and outcomes persist. Factors contributing to these disparities include genetics, diet, lifestyle choices, and socioeconomic status. African Americans often face late-stage diagnoses, which complicates treatment and reduces survival rates. The App emphasizes the need for targeted interventions, improved healthcare access, and increased awareness to address these disparities and promote equitable health outcomes.\n\n"
+                    "The information contained in this App is not intended to replace professional medical advice. Any use of information in this APP is at the user’s discretion. Global Health Diagnostics LLC disclaims any liability arising directly or indirectly from applying any information contained herein."),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
         );
       },
     );
@@ -278,7 +303,16 @@ class _SignupScreenState extends State<SignupScreen> {
                         });
                       },
                     ),
-                    const Text('I agree to the User Agreement'),
+                    GestureDetector(
+                      onTap: showTermsOfUseDialog,
+                      child: const Text(
+                        'I agree to the Terms of Use',
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: blueColor,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
                 Row(
