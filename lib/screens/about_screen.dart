@@ -3,14 +3,14 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:hcq/utils/colors.dart';
 
 class AboutScreen extends StatelessWidget {
-  const AboutScreen({Key? key});
+  const AboutScreen({super.key});
 
   Future<void> _launchEmail(String email) async {
-    final Uri _emailLaunchUri = Uri(
+    final Uri emailLaunchUri = Uri(
       scheme: 'mailto',
       path: email,
     );
-    final String emailAddress = _emailLaunchUri.toString();
+    final String emailAddress = emailLaunchUri.toString();
     if (await canLaunch(emailAddress)) {
       await launch(emailAddress);
     } else {
@@ -19,12 +19,12 @@ class AboutScreen extends StatelessWidget {
   }
 
   Future<void> _launchPhone(String phone) async {
-    final Uri _phoneLaunchUri = Uri(
+    final Uri phoneLaunchUri = Uri(
       scheme: 'tel',
       path: phone,
     );
-    if (await canLaunch(_phoneLaunchUri.toString())) {
-      await launch(_phoneLaunchUri.toString());
+    if (await canLaunch(phoneLaunchUri.toString())) {
+      await launch(phoneLaunchUri.toString());
     } else {
       throw 'Could not launch phone';
     }

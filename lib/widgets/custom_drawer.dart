@@ -160,7 +160,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AdventureGame(),
+                  builder: (context) => const AdventureGame(),
                 ),
               );
             },
