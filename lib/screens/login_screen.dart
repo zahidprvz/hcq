@@ -21,43 +21,16 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _verificationCodeController =
-      TextEditingController();
   bool _isLoading = false;
-  bool _isCodeSent = false;
 
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _verificationCodeController.dispose();
   }
 
-  void sendVerificationCode() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    String res = await AuthMethods().sendVerificationCode(
-      email: _emailController.text,
-    );
-
-    if (res == 'success') {
-      setState(() {
-        _isCodeSent = true;
-      });
-      showSnackBar('Verification code sent to your email', context);
-    } else {
-      showSnackBar(res, context);
-    }
-
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
-  void loginUser() async {
+  Future<void> loginUser() async {
     setState(() {
       _isLoading = true;
     });
@@ -65,26 +38,6 @@ class _LoginScreenState extends State<LoginScreen> {
     String res = await AuthMethods().loginUser(
       email: _emailController.text,
       password: _passwordController.text,
-    );
-
-    if (res == 'success') {
-      sendVerificationCode();
-    } else {
-      showSnackBar(res, context);
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
-
-  void verifyCodeAndLogin() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    String res = await AuthMethods().verifyCode(
-      email: _emailController.text,
-      code: _verificationCodeController.text,
     );
 
     if (res == 'success') {
@@ -98,10 +51,11 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } else {
       showSnackBar(res, context);
-      setState(() {
-        _isLoading = false;
-      });
     }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   void navigateToSignup() {
@@ -157,9 +111,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 24.0,
                 ),
-                // Button
+                // Login button
                 InkWell(
-                  onTap: _isCodeSent ? verifyCodeAndLogin : loginUser,
+                  onTap: loginUser,
                   child: Container(
                     width: double.infinity,
                     alignment: Alignment.center,
@@ -178,21 +132,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: primaryColor,
                             ),
                           )
-                        : Text(
-                            _isCodeSent ? 'Verify Code' : 'Login',
-                            style: const TextStyle(color: primaryColor),
+                        : const Text(
+                            'Login',
+                            style: TextStyle(color: primaryColor),
                           ),
                   ),
                 ),
-                const SizedBox(
-                  height: 24.0,
-                ),
-                if (_isCodeSent)
-                  TextFieldInput(
-                    hintText: 'Enter the verification code',
-                    textEditingController: _verificationCodeController,
-                    textInputType: TextInputType.number,
-                  ),
                 const SizedBox(
                   height: 24.0,
                 ),
