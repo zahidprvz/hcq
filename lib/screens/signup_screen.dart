@@ -8,6 +8,7 @@ import 'package:hcq/utils/global_variables.dart';
 import 'package:hcq/utils/utils.dart';
 import 'package:hcq/widgets/text_field_input.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -20,13 +21,13 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
   DateTime? _selectedDate;
   Uint8List? _image;
   bool _isLoading = false;
   bool _userAgreementAccepted = false;
   bool _privacyPolicyAccepted = false;
+  String? _phoneNumber;
 
   @override
   void dispose() {
@@ -34,7 +35,6 @@ class _SignupScreenState extends State<SignupScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     _usernameController.dispose();
-    _phoneController.dispose();
     _genderController.dispose();
   }
 
@@ -60,8 +60,15 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void signUpUser() async {
-    if (!_userAgreementAccepted || !_privacyPolicyAccepted) {
-      showSnackBar('Please accept User Agreement and Privacy Policy', context);
+    if (_emailController.text.isEmpty ||
+        _passwordController.text.isEmpty ||
+        _usernameController.text.isEmpty ||
+        _phoneNumber == null ||
+        _phoneNumber!.isEmpty ||
+        !_userAgreementAccepted ||
+        !_privacyPolicyAccepted) {
+      showSnackBar(
+          'Please fill all the required fields and accept agreements', context);
       return;
     }
 
@@ -75,7 +82,7 @@ class _SignupScreenState extends State<SignupScreen> {
       username: _usernameController.text,
       dateOfBirth: _selectedDate,
       gender: _genderController.text,
-      phone: _phoneController.text,
+      phone: _phoneNumber!,
       file: _image,
       userAgreementAccepted: _userAgreementAccepted,
       privacyPolicyAccepted: _privacyPolicyAccepted,
@@ -88,7 +95,6 @@ class _SignupScreenState extends State<SignupScreen> {
     if (res != "success") {
       showSnackBar(res, context);
     } else {
-      // Show email verification screen
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => const EmailVerificationScreen(),
@@ -168,7 +174,10 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Close'),
+              child: const Text(
+                'Close',
+                style: TextStyle(color: secondaryColor),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -287,15 +296,46 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ),
                 const SizedBox(height: 24.0),
-                TextFieldInput(
-                  hintText: 'Enter your phone number (optional)',
-                  textEditingController: _phoneController,
-                  textInputType: TextInputType.phone,
+                IntlPhoneField(
+                  cursorColor: secondaryColor,
+                  style: const TextStyle(),
+                  decoration: const InputDecoration(
+                    suffixIcon: Icon(Icons.phone),
+                    suffixIconColor: secondaryColor,
+                    labelText: 'Phone Number',
+                    fillColor: secondaryColor,
+                    labelStyle: TextStyle(color: secondaryColor),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: secondaryColor,
+                        style: BorderStyle.solid,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: secondaryColor,
+                        style: BorderStyle.solid,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: secondaryColor,
+                        style: BorderStyle.solid,
+                      ),
+                    ),
+                  ),
+                  initialCountryCode: 'US',
+                  onChanged: (phone) {
+                    setState(() {
+                      _phoneNumber = phone.completeNumber;
+                    });
+                  },
                 ),
                 const SizedBox(height: 24.0),
                 Row(
                   children: [
                     Checkbox(
+                      activeColor: secondaryColor,
                       value: _userAgreementAccepted,
                       onChanged: (value) {
                         setState(() {
@@ -309,7 +349,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         'I agree to the Terms of Use',
                         style: TextStyle(
                           decoration: TextDecoration.underline,
-                          color: blueColor,
+                          color: secondaryColor,
                         ),
                       ),
                     ),
@@ -318,6 +358,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 Row(
                   children: [
                     Checkbox(
+                      activeColor: secondaryColor,
                       value: _privacyPolicyAccepted,
                       onChanged: (value) {
                         setState(() {
