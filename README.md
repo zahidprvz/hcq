@@ -1,6 +1,6 @@
-# HCQ (Healthcare Query) App
+# HCQ (Health Colon Quest) App
 
-HCQ (Healthcare Query) is a mobile application designed to provide users with essential healthcare information, appointment scheduling, and educational resources related to colon cancer and related health topics.
+HCQ (Health Colon Quest) is a mobile application designed to provide users with essential healthcare information, appointment scheduling, and educational resources related to colon cancer and related health topics.
 
 ![HCQ App](screenshots/hcq_app.png)
 
