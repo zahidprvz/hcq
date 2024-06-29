@@ -105,7 +105,8 @@ class AboutScreen extends StatelessWidget {
                   child: const Text(
                     'Email: info@globalhealthdiagnostic.com',
                     style: TextStyle(
-                        // decoration: TextDecoration.underline,
+                        //
+                        //decoration: TextDecoration.underline,
                         ),
                   ),
                 ),
