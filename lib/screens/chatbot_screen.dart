@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:hcq/models/message.dart';
 import 'package:hcq/utils/colors.dart';
@@ -17,18 +16,10 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   TextEditingController _userInput = TextEditingController();
-  late GenerativeModel model; // Declare model as late
-
+  static const apiKey = "paste-api-key-here-from-gemini-api";
+  final model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey);
   final List<Message> _messages = [];
   bool _isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    // Initialize model in initState
-    final apiKey = dotenv.env['API_KEY'];
-    model = GenerativeModel(model: 'gemini-pro', apiKey: apiKey ?? '');
-  }
 
   Future<void> sendMessage() async {
     final message = _userInput.text;
