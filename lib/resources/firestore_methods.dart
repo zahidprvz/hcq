@@ -3,14 +3,9 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hcq/models/chat.dart';
 import 'package:hcq/models/message.dart';
-import 'package:hcq/models/message.dart';
-import 'package:hcq/models/message.dart';
 import 'package:hcq/models/post.dart';
 import 'package:hcq/resources/storage_methods.dart';
-import 'package:hcq/screens/chatbot_screen.dart';
 import 'package:uuid/uuid.dart';
-
-import '../models/message.dart';
 
 class FirestoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
