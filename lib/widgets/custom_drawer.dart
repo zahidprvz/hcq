@@ -8,6 +8,7 @@ import 'package:hcq/screens/map_screen2.dart';
 import 'package:hcq/screens/notification_screen.dart';
 import 'package:hcq/screens/profile_screen.dart';
 import 'package:hcq/screens/search_screen.dart';
+import 'package:hcq/screens/trivia_game_screen.dart';
 import 'package:hcq/screens/user_quiz_screen.dart';
 import 'package:hcq/utils/colors.dart';
 import 'package:hcq/widgets/profile_customization_widget.dart';
@@ -162,6 +163,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 MaterialPageRoute(
                   builder: (context) => const AdventureGame(),
                 ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.play_arrow),
+            title: const Text('Play Trivia'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TriviaGameScreen()),
               );
             },
           ),

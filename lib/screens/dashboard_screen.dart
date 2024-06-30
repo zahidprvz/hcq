@@ -199,9 +199,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ChatBotScreen(
-                            uid: FirebaseAuth.instance.currentUser!.uid,
-                          )),
+                    builder: (context) => ChatScreen(
+                      uid: FirebaseAuth.instance.currentUser!.uid,
+                    ),
+                  ),
                 );
               },
               child: const Text(

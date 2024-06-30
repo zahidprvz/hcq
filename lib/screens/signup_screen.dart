@@ -4,14 +4,13 @@ import 'package:hcq/resources/auth_methods.dart';
 import 'package:hcq/screens/email_verification_screen.dart';
 import 'package:hcq/screens/login_screen.dart';
 import 'package:hcq/utils/colors.dart';
-import 'package:hcq/utils/global_variables.dart';
 import 'package:hcq/utils/utils.dart';
 import 'package:hcq/widgets/text_field_input.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+  const SignupScreen({Key? key}) : super(key: key);
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -25,24 +24,25 @@ class _SignupScreenState extends State<SignupScreen> {
   DateTime? _selectedDate;
   Uint8List? _image;
   bool _isLoading = false;
-  bool _userAgreementAccepted = false;
   bool _privacyPolicyAccepted = false;
   String? _phoneNumber;
 
   @override
   void dispose() {
-    super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _usernameController.dispose();
     _genderController.dispose();
+    super.dispose();
   }
 
   void selectImage() async {
-    Uint8List im = await pickImage(ImageSource.gallery);
-    setState(() {
-      _image = im;
-    });
+    Uint8List? im = await pickImage(ImageSource.gallery);
+    if (im != null) {
+      setState(() {
+        _image = im;
+      });
+    }
   }
 
   void _selectDate(BuildContext context) async {
@@ -65,16 +65,24 @@ class _SignupScreenState extends State<SignupScreen> {
         _usernameController.text.isEmpty ||
         _phoneNumber == null ||
         _phoneNumber!.isEmpty ||
-        !_userAgreementAccepted ||
         !_privacyPolicyAccepted) {
       showSnackBar(
-          'Please fill all the required fields and accept agreements', context);
+          'Please fill all the required fields and accept privacy policy',
+          context);
       return;
+    }
+
+    bool? accepted = await showTermsOfUseDialog(); // Await the result correctly
+    if (accepted == null || !accepted) {
+      return; // Stop signup if terms of use not accepted
     }
 
     setState(() {
       _isLoading = true;
     });
+
+    // Assuming _userAgreementAccepted is set based on terms acceptance
+    var _userAgreementAccepted = accepted;
 
     String res = await AuthMethods().signupUser(
       email: _emailController.text,
@@ -84,22 +92,22 @@ class _SignupScreenState extends State<SignupScreen> {
       gender: _genderController.text,
       phone: _phoneNumber!,
       file: _image,
-      userAgreementAccepted: _userAgreementAccepted,
       privacyPolicyAccepted: _privacyPolicyAccepted,
+      userAgreementAccepted: _userAgreementAccepted,
     );
 
     setState(() {
       _isLoading = false;
     });
 
-    if (res != "success") {
-      showSnackBar(res, context);
-    } else {
+    if (res == "success") {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => const EmailVerificationScreen(),
         ),
       );
+    } else {
+      showSnackBar(res, context);
     }
   }
 
@@ -156,8 +164,8 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  void showTermsOfUseDialog() {
-    showDialog(
+  Future<bool?> showTermsOfUseDialog() async {
+    return showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -166,9 +174,11 @@ class _SignupScreenState extends State<SignupScreen> {
           content: const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text("Colorectal Cancer\n\n"
-                    "Colorectal cancer (CRC) is a significant global health concern, particularly affecting African Americans, who experience higher incidence and mortality rates compared to other racial groups. Despite advancements in medical technology and awareness campaigns, disparities in CRC screening and outcomes persist. Factors contributing to these disparities include genetics, diet, lifestyle choices, and socioeconomic status. African Americans often face late-stage diagnoses, which complicates treatment and reduces survival rates. The App emphasizes the need for targeted interventions, improved healthcare access, and increased awareness to address these disparities and promote equitable health outcomes.\n\n"
-                    "The information contained in this App is not intended to replace professional medical advice. Any use of information in this APP is at the user’s discretion. Global Health Diagnostics LLC disclaims any liability arising directly or indirectly from applying any information contained herein."),
+                Text(
+                  "Colorectal Cancer\n\n"
+                  "Colorectal cancer (CRC) is a significant global health concern, particularly affecting African Americans, who experience higher incidence and mortality rates compared to other racial groups. Despite advancements in medical technology and awareness campaigns, disparities in CRC screening and outcomes persist. Factors contributing to these disparities include genetics, diet, lifestyle choices, and socioeconomic status. African Americans often face late-stage diagnoses, which complicates treatment and reduces survival rates. The App emphasizes the need for targeted interventions, improved healthcare access, and increased awareness to address these disparities and promote equitable health outcomes.\n\n"
+                  "The information contained in this App is not intended to replace professional medical advice. Any use of information in this APP is at the user’s discretion. Global Health Diagnostics LLC disclaims any liability arising directly or indirectly from applying any information contained herein.",
+                ),
               ],
             ),
           ),
@@ -179,7 +189,16 @@ class _SignupScreenState extends State<SignupScreen> {
                 style: TextStyle(color: secondaryColor),
               ),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(false); // Not accepted
+              },
+            ),
+            TextButton(
+              child: const Text(
+                'Accept',
+                style: TextStyle(color: secondaryColor),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(true); // Accepted
               },
             ),
           ],
@@ -195,11 +214,7 @@ class _SignupScreenState extends State<SignupScreen> {
         child: SingleChildScrollView(
           child: Container(
             alignment: Alignment.center,
-            padding: MediaQuery.of(context).size.width > webScreenSize
-                ? EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width / 3,
-                  )
-                : const EdgeInsets.symmetric(horizontal: 32.0),
+            padding: const EdgeInsets.symmetric(horizontal: 32.0),
             width: double.infinity,
             color: mobileBackgroundColor,
             child: Column(
@@ -332,29 +347,6 @@ class _SignupScreenState extends State<SignupScreen> {
                   },
                 ),
                 const SizedBox(height: 24.0),
-                Row(
-                  children: [
-                    Checkbox(
-                      activeColor: secondaryColor,
-                      value: _userAgreementAccepted,
-                      onChanged: (value) {
-                        setState(() {
-                          _userAgreementAccepted = value!;
-                        });
-                      },
-                    ),
-                    GestureDetector(
-                      onTap: showTermsOfUseDialog,
-                      child: const Text(
-                        'I agree to the Terms of Use',
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: secondaryColor,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
                 Row(
                   children: [
                     Checkbox(

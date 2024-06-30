@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,7 +11,8 @@ class QuizScreen extends StatefulWidget {
   final String uid; // Current user's UID
   final String quizFilePath; // Path to quiz questions JSON file
 
-  const QuizScreen({super.key, required this.uid, required this.quizFilePath});
+  const QuizScreen({Key? key, required this.uid, required this.quizFilePath})
+      : super(key: key);
 
   @override
   _QuizScreenState createState() => _QuizScreenState();
@@ -20,6 +22,7 @@ class _QuizScreenState extends State<QuizScreen> {
   List<Quiz> quizzes = [];
   List<String> userAnswers = [];
   bool isLoading = true;
+  bool isSubmitting = false;
 
   @override
   void initState() {
@@ -41,8 +44,8 @@ class _QuizScreenState extends State<QuizScreen> {
             quizzesData.map((quizJson) => Quiz.fromJson(quizJson)).toList();
       });
     } catch (e) {
-      // print('Error loading quizzes: $e');
       // Handle error loading quizzes
+      print('Error loading quizzes: $e');
     }
   }
 
@@ -77,19 +80,15 @@ class _QuizScreenState extends State<QuizScreen> {
                   content: const Text('Do you want to retake the quiz?'),
                   actions: <Widget>[
                     TextButton(
-                      child: const Text(
-                        'No',
-                        style: TextStyle(color: secondaryColor),
-                      ),
+                      child: const Text('No',
+                          style: TextStyle(color: secondaryColor)),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
                     ),
                     TextButton(
-                      child: const Text(
-                        'Yes',
-                        style: TextStyle(color: secondaryColor),
-                      ),
+                      child: const Text('Yes',
+                          style: TextStyle(color: secondaryColor)),
                       onPressed: () {
                         Navigator.of(context).pop();
                         _resetQuiz();
@@ -107,7 +106,8 @@ class _QuizScreenState extends State<QuizScreen> {
         isLoading = false;
       });
     } catch (e) {
-      // print('Error checking user quiz status: $e');
+      // Handle error checking user quiz status
+      print('Error checking user quiz status: $e');
       setState(() {
         isLoading = false;
       });
@@ -116,6 +116,10 @@ class _QuizScreenState extends State<QuizScreen> {
 
   void _submitQuiz() async {
     try {
+      setState(() {
+        isSubmitting = true; // Show circular progress indicator
+      });
+
       // Get Firestore instance
       FirebaseFirestore firestore = FirebaseFirestore.instance;
       // Reference to user's document in Firestore
@@ -124,11 +128,23 @@ class _QuizScreenState extends State<QuizScreen> {
       await userRef.set({
         'quizzes': userAnswers,
       }, SetOptions(merge: true));
+
       // Show success message or navigate to next screen
-      // print('Quiz responses submitted successfully');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Data saved in database.'),
+        ),
+      );
+
+      setState(() {
+        isSubmitting = false; // Hide circular progress indicator
+      });
     } catch (e) {
-      // print('Error submitting quiz responses: $e');
       // Handle error submitting quiz responses
+      print('Error submitting quiz responses: $e');
+      setState(() {
+        isSubmitting = false; // Hide circular progress indicator on error
+      });
     }
   }
 
@@ -145,8 +161,8 @@ class _QuizScreenState extends State<QuizScreen> {
       // Show success message or navigate to next screen
       // print('Quiz responses updated successfully');
     } catch (e) {
-      // print('Error updating quiz responses: $e');
       // Handle error updating quiz responses
+      print('Error updating quiz responses: $e');
     }
   }
 
@@ -170,71 +186,83 @@ class _QuizScreenState extends State<QuizScreen> {
           ),
         ],
       ),
-      body: isLoading
-          ? const Center(
-              child: CircularProgressIndicator(
-              color: secondaryColor,
-            ))
-          : quizzes.isEmpty
-              ? const Center(child: Text('No quizzes available.'))
-              : SingleChildScrollView(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      for (var quiz in quizzes)
-                        Column(
+      body: Stack(
+        children: [
+          BlurBackground(
+            isLoading: isSubmitting,
+            child: isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(color: secondaryColor),
+                  )
+                : quizzes.isEmpty
+                    ? const Center(child: Text('No quizzes available.'))
+                    : SingleChildScrollView(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              quiz.title,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18.0),
-                            ),
-                            const SizedBox(height: 12.0),
-                            for (var question in quiz.questions)
+                            for (var quiz in quizzes)
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    question.text,
+                                    quiz.title,
                                     style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18.0),
                                   ),
-                                  const SizedBox(height: 8.0),
-                                  for (var answer in question.answers)
-                                    AnswerTile(
-                                      answer: answer,
-                                      isSelected: userAnswers.contains(
-                                          '${question.id}:${answer.id}'),
-                                      onSelected: (isSelected) {
-                                        setState(() {
-                                          if (isSelected) {
-                                            userAnswers.add(
-                                                '${question.id}:${answer.id}');
-                                          } else {
-                                            userAnswers.remove(
-                                                '${question.id}:${answer.id}');
-                                          }
-                                        });
-                                      },
+                                  const SizedBox(height: 12.0),
+                                  for (var question in quiz.questions)
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          question.text,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        const SizedBox(height: 8.0),
+                                        for (var answer in question.answers)
+                                          AnswerTile(
+                                            answer: answer,
+                                            isSelected: userAnswers.contains(
+                                                '${question.id}:${answer.id}'),
+                                            onSelected: (isSelected) {
+                                              setState(() {
+                                                if (isSelected) {
+                                                  userAnswers.add(
+                                                      '${question.id}:${answer.id}');
+                                                } else {
+                                                  userAnswers.remove(
+                                                      '${question.id}:${answer.id}');
+                                                }
+                                              });
+                                            },
+                                          ),
+                                        const SizedBox(height: 16.0),
+                                      ],
                                     ),
-                                  const SizedBox(height: 16.0),
+                                  const Divider(thickness: 2.0),
                                 ],
                               ),
-                            const Divider(thickness: 2.0),
+                            ElevatedButton(
+                              onPressed: _submitQuiz,
+                              child: const Text(
+                                'Submit',
+                                style: TextStyle(color: secondaryColor),
+                              ),
+                            ),
                           ],
                         ),
-                      ElevatedButton(
-                        onPressed: _submitQuiz,
-                        child: const Text(
-                          'Submit',
-                          style: TextStyle(color: secondaryColor),
-                        ),
                       ),
-                    ],
-                  ),
-                ),
+          ),
+          if (isSubmitting)
+            const Center(
+              child: CircularProgressIndicator(color: secondaryColor),
+            ),
+        ],
+      ),
     );
   }
 }
@@ -244,12 +272,12 @@ class AnswerTile extends StatelessWidget {
   final bool isSelected;
   final ValueChanged<bool> onSelected;
 
-  const AnswerTile({
-    super.key,
-    required this.answer,
-    required this.isSelected,
-    required this.onSelected,
-  });
+  const AnswerTile(
+      {Key? key,
+      required this.answer,
+      required this.isSelected,
+      required this.onSelected})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -259,6 +287,35 @@ class AnswerTile extends StatelessWidget {
           : const Icon(Icons.check_box_outline_blank),
       title: Text(answer.text),
       onTap: () => onSelected(!isSelected),
+    );
+  }
+}
+
+class BlurBackground extends StatelessWidget {
+  final bool isLoading;
+  final Widget child;
+
+  const BlurBackground({Key? key, required this.isLoading, required this.child})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        child,
+        if (isLoading)
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: Container(
+                color: Colors.black.withOpacity(0.5),
+                child: const Center(
+                  child: CircularProgressIndicator(color: secondaryColor),
+                ),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

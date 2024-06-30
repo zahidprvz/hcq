@@ -92,6 +92,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         widget.chatId,
                         currentUser!.uid,
                         _messageController.text,
+                        true,
                       );
                       _messageController.clear();
                     }

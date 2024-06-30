@@ -3,10 +3,14 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hcq/models/chat.dart';
 import 'package:hcq/models/message.dart';
+import 'package:hcq/models/message.dart';
+import 'package:hcq/models/message.dart';
 import 'package:hcq/models/post.dart';
 import 'package:hcq/resources/storage_methods.dart';
 import 'package:hcq/screens/chatbot_screen.dart';
 import 'package:uuid/uuid.dart';
+
+import '../models/message.dart';
 
 class FirestoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -205,7 +209,7 @@ class FirestoreMethods {
 
   // Send message
   Future<String> sendMessage(
-      String chatId, String senderId, String text) async {
+      String chatId, String senderId, String text, bool isUser) async {
     String res = "some error occurred";
     try {
       String messageId = const Uuid().v1();
@@ -214,6 +218,7 @@ class FirestoreMethods {
         senderId: senderId,
         text: text,
         timestamp: DateTime.now(),
+        isUser: isUser,
       );
 
       await _firestore
@@ -259,25 +264,18 @@ class FirestoreMethods {
 
   // Store user's chat with chatbot
   Future<String> storeUserChatWithChatbot(
-      String uid, List<ChatMessage> messages) async {
+      String uid, List<Message> messages) async {
     String res = "Some error occurred";
     try {
       String chatId = uid; // Use user's UID as chat ID for simplicity
 
-      for (ChatMessage message in messages) {
-        Message firestoreMessage = Message(
-          messageId: const Uuid().v1(),
-          senderId: message.isUser ? uid : 'chatbot',
-          text: message.text,
-          timestamp: DateTime.now(),
-        );
-
+      for (Message message in messages) {
         await _firestore
             .collection('chatbot_chats')
             .doc(chatId)
             .collection('messages')
-            .doc(firestoreMessage.messageId)
-            .set(firestoreMessage.toJson());
+            .doc(message.messageId)
+            .set(message.toJson());
       }
 
       res = "Success";
@@ -300,7 +298,7 @@ class FirestoreMethods {
             snapshot.docs.map((doc) => Message.fromJson(doc.data())).toList());
   }
 
-// method to delete chat with chatbot
+  // Method to delete chat with chatbot
   Future<void> deleteChatWithChatbot(String uid) async {
     try {
       CollectionReference messagesRef = _firestore

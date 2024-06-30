@@ -12,7 +12,7 @@ const String mapApiKey = 'AIzaSyCFanwauncnnYJffClDptthcx_QohDLWVY';
 List<Widget> homeScreenItems = [
   const DashboardScreen(),
   const NotificationScreen(),
-  ChatBotScreen(
+  ChatScreen(
     uid: FirebaseAuth.instance.currentUser!.uid,
   ),
   const ColonCancerArticlesScreen(),
